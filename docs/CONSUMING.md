@@ -104,8 +104,10 @@ That writes `ic_launcher_background.xml` (shared ground, identical for every
 app), `ic_launcher_foreground.xml` and `ic_launcher_monochrome.xml` (the app's
 mark). The wrappers point at those three by name, so no rename is needed.
 
-`shapely` is required only for `--app explorer` (the torn folder); the other
-three build with the standard library alone.
+All four build from the standard library alone (no external deps). The ground is
+a shared clay **value gradation** (one hue, brightness-graded) and the mark is
+white ink-brush; see `../appicons/README.md` for the finish and the no-sunburst
+rule.
 
 ## Re-syncing on a new version
 

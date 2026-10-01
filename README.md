@@ -54,7 +54,7 @@ Seeded from OLO Explorer's shipping design, and now self-contained:
   against Explorer's shipping `Theme.kt`.
 - **Symbols** — the SVG sources (`icons/svg/`), the tile/flat build
   (`icons/build_from_svg.py`), the authored glyphs (`icons/authored_symbols.py`)
-  and the four static tiles (`icons/static/`) all live here. The build
+  and the static tiles (`icons/static/`) all live here. The build
   reproduces Explorer's drawables exactly. `icons/FILEKIND.md` holds the shared
   kind set and maps.
 - **App icons** — `appicons/launcher.py` draws the shared clay ground and all

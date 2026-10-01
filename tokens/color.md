@@ -84,5 +84,7 @@ must stay light-on-dark.
 | app | `0xFF4C7A3E` (green) | `0xFF69985A` |
 | other | `0xFF7A7168` (warm grey) | `0xFF938A80` |
 
-(COMIC reuses the archive hue, told apart by an open-book glyph rather than a
-tenth colour.)
+Two kinds reuse a hue and are told apart by glyph rather than by a new colour:
+**COMIC** reuses the archive hue (open-book glyph with panel lines), and
+**EBOOK** (epub) reuses the `document` hue (plain open-book glyph). So the nine
+tile hues above still cover eleven `FileKind`s — see `../icons/FILEKIND.md`.

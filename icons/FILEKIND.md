@@ -21,13 +21,25 @@ kind whether jpg or heic, and anything unrecognised is `OTHER`, not guessed.
 | `VIDEO` | `ic_tile_video` | `video` |
 | `AUDIO` | `ic_tile_audio` | `audio` |
 | `DOCUMENT` | `ic_tile_document` | `document` |
+| `EBOOK` | `ic_tile_book` | `document` — same hue as DOCUMENT, open-book glyph |
 | `CODE` | `ic_tile_code` | `code` |
 | `APP` | `ic_tile_app` | `app` |
 | `OTHER` | `ic_tile_document` | `other` |
 
 Nine content hues (`folder, archive, image, video, audio, document, code, app,
-other`), ten kinds — `COMIC` rides the `archive` hue. `OTHER` wears the
+other`), eleven kinds — two of them ride a shared hue and are told apart by
+glyph: `COMIC` rides `archive`, and `EBOOK` rides `document`. `OTHER` wears the
 `document` glyph but the `other` hue.
+
+`EBOOK` is the newest kind (2026-10, decided here): an e-book (epub) gets the
+open-book `ic_tile_book` glyph while keeping the `document` slate hue — the same
+move `COMIC` makes on the `archive` hue. It came from the OLO eBook app, whose
+library wanted a book read apart from a plain document at a glance. Two things
+were deliberately *not* adopted from eBook's own tiles: its teal for epub (teal
+is `code`'s hue, and moving `code` would break the baseline), and its line-glyph
+style (the family stays two-tone white fill). So `EBOOK` is document-slate +
+a two-tone-fill open book. `ic_tile_book` carries no panel lines, which is what
+tells it from `ic_tile_comic` (open book *with* panel lines, on the archive hue).
 
 ## Extension → kind
 
@@ -42,7 +54,8 @@ not in this table, is `OTHER`. A directory is always `FOLDER`.
 | `IMAGE` | `jpg jpeg png gif webp bmp heic heif tiff tif svg` |
 | `VIDEO` | `mkv mp4 avi mov wmv flv webm m4v mpg mpeg ts m2ts` |
 | `AUDIO` | `mp3 flac wav aac ogg m4a wma opus` |
-| `DOCUMENT` | `pdf epub doc docx xls xlsx ppt pptx txt md rtf odt hwp srt smi ass vtt sub` |
+| `EBOOK` | `epub` |
+| `DOCUMENT` | `pdf doc docx xls xlsx ppt pptx txt md rtf odt hwp srt smi ass vtt sub` |
 | `CODE` | `kt java py js ts json xml yml yaml html css sh c cpp h rs go rb php` |
 | `APP` | `apk aab apks xapk` |
 
@@ -55,6 +68,12 @@ Notes carried from Explorer, kept so the table does not drift as apps copy it:
   shelf of plain zips.
 - **Subtitles** (`srt smi ass vtt sub`) are `DOCUMENT`: they are text and sit
   beside the film they belong to; they should not look like a video.
+- **`epub`** is `EBOOK`, not `DOCUMENT`: an e-book earns the open-book tile so a
+  shelf of them reads apart from plain documents. **`pdf` and `txt` stay
+  `DOCUMENT`** (document-slate, document glyph) across the family — an app that
+  wants to tell pdf from txt inside its own UI may do so locally, but the family
+  kind set does not split them. Other e-book formats (`mobi`, `azw3`, …) are not
+  in the family set yet; add them here first if an app needs them.
 
 ## How an app adopts this
 

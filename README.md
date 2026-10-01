@@ -41,12 +41,27 @@ Clay orange on warm ivory, tight corners, and a set of rounded-square symbol
 tiles coloured by *hue* (not lightness) so nine kinds stay scannable — seeded
 from OLO Explorer, which is the most developed of the four.
 
-See `tokens/` for the exact values, `icons/` for the symbol set, `appicons/`
-for the app-icon family, and `docs/DESIGN-BRIEF.md` for the design session's
-charter.
+See `tokens/` for the exact values, `icons/` for the symbol set and the
+`FileKind` contract, `appicons/` for the app-icon family, `docs/CONSUMING.md`
+for how an app pulls it all in, and `docs/DESIGN-BRIEF.md` for the design
+session's charter.
 
 ## Status
 
-Seeded from OLO Explorer's shipping design. The design session fills in the
-canonical token files, migrates the symbol SVGs and the build pipeline, and
-designs the per-app app-icon family; the apps then adopt it.
+Seeded from OLO Explorer's shipping design, and now self-contained:
+
+- **Tokens** — colour, type and shape are captured in `tokens/`, verified
+  against Explorer's shipping `Theme.kt`.
+- **Symbols** — the SVG sources (`icons/svg/`), the tile/flat build
+  (`icons/build_from_svg.py`), the authored glyphs (`icons/authored_symbols.py`)
+  and the four static tiles (`icons/static/`) all live here. The build
+  reproduces Explorer's drawables exactly. `icons/FILEKIND.md` holds the shared
+  kind set and maps.
+- **App icons** — `appicons/launcher.py` draws the shared clay ground and all
+  four per-app marks (Explorer folder-tear, Player play, Cycle motion-loop,
+  eBook open-book) from one place; wrappers in `appicons/mipmap/`.
+- **Consumption** — `docs/CONSUMING.md` says exactly what each app copies or
+  builds and where it goes.
+
+Apps now adopt from here; new work is a deliberate universe change made here and
+announced to the app sessions.

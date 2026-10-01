@@ -2,55 +2,96 @@
 
 The in-app symbols — the coloured rounded-square **tiles** that stand in front
 of a folder, a file kind, or a place — plus the flat single-colour glyphs used
-in toolbars. Seeded from OLO Explorer.
+in toolbars. Seeded from OLO Explorer; the sources and the build live here now,
+so every app builds the same symbols from this one place.
 
 ## The tile
 
 A tile is a rounded square (`small`, `10.dp`) filled with the kind's hue (see
-`tokens/color.md`, `MaterialTheme.tiles`) carrying a **white glyph**. Kinds are
+`../tokens/color.md`, `MaterialTheme.tiles`) carrying a **white glyph**. Kinds are
 told apart by *hue*, not by lightness — so a wall of tiles stays scannable
 before any glyph is read. Dark-theme hues are deliberately lighter than light
 ones, because the glyph stays white on both.
 
+The glyph XML is only the white shape; the coloured square behind it is drawn
+by the app in Compose from the `tiles` token. So the same `ic_tile_folder.xml`
+sits on a clay square in a file list and the colour, not the file, is picked at
+the point of use.
+
 ### Two-tone white glyphs
 
 Some glyphs are drawn two-tone (a solid white shape plus a semi-transparent
-white detail) rather than a single flat white. These are authored with their
-own opacity baked in and **must be drawn with `tint = Unspecified`** — tinting
-them would collapse the two tones into one and lose the detail. A plain
+white detail, `#8CFFFFFF`) rather than a single flat white. These are authored
+with their own opacity baked in and **must be drawn with `tint = Unspecified`** —
+tinting them would collapse the two tones into one and lose the detail. A plain
 single-colour glyph is tinted white as usual.
 
 ## The set
 
-The tiles that ship in Explorer (`res/drawable/ic_tile_*.xml`), by meaning:
-
-- **File/content kinds** — `folder`, `archive`, `comic` (open-book glyph on the
-  archive hue), `document`, `image`, `video`, `audio`, `code`, `app`.
-- **Places & actions** — `server`, `sdcard`, `recents`, `transfers`,
-  `bookmark`, `search`, `trash`, `locked`, `phone`, `alert`.
+| Group | Tiles |
+|-------|-------|
+| **File/content kinds** | `folder`, `archive`, `comic` (open-book glyph on the archive hue), `document`, `image`, `video`, `audio`, `code`, `app` |
+| **Places & actions** | `server`, `sdcard`, `recents`, `transfers`, `bookmark`, `search`, `trash`, `locked`, `phone`, `alert` |
 
 Flat toolbar glyphs are the `ic_flat_*` set (`folder`, `server`, `transfers`,
 `search`, `secure`, `log`, `warning`) — single-colour, tinted at use.
 
-## FileKind → tile mapping
+See `FILEKIND.md` for the canonical `FileKind` set, the extension→kind table,
+and the kind→hue / kind→glyph maps that every app must mirror exactly.
 
-Each app maps a file (by extension) to a `FileKind`, and each kind to a tile +
-its hue. The canonical kinds are the nine content hues above; COMIC is a
-variant of ARCHIVE (same hue, open-book glyph). The extension→kind table lives
-with each app's browse/list code; keep the *kind set* and the *kind→hue* map
-identical across apps so the same file type wears the same colour everywhere.
+## What is here
+
+| Path | Holds |
+|------|-------|
+| `svg/` | the icon pack's SVG sources (126 drawings); only a subset is mapped to symbols |
+| `build_from_svg.py` | SVG → vector-drawable builder for the pack-derived tiles and flat glyphs, recolouring as it goes |
+| `authored_symbols.py` | the in-app glyphs the pack has no drawing for — `transfers`, `log`, `alert` |
+| `static/` | the four hand-authored tiles that no script generates — `comic`, `bookmark`, `recents`, `trash` |
+
+(The launcher / app-icon marks are their own thing and live in `../appicons/`.)
 
 ## The build pipeline
 
-Tiles are generated from SVG sources, not hand-edited:
+Tiles and flat glyphs are generated from the SVG sources, not hand-edited:
 
-- Sources: `tools/icons/svg/*.svg` in **OLO Explorer** (`kgcaudit/filezilla-client`).
-- Generator: `tools/icons/build_from_svg.py` — crosses each SVG path over to an
-  Android vector drawable verbatim, recolouring the pack's palette to OLO's via
-  an explicit `RECOLOUR` map (written out, not computed — distance metrics
-  misfiled hues quietly), flattening what Android needs extra machinery for,
-  and dropping no-op clips. Nothing is redrawn.
+- **`build_from_svg.py`** crosses each mapped SVG path over to an Android vector
+  drawable verbatim (nothing is redrawn), recolouring the pack's palette to
+  OLO's via an explicit `RECOLOUR` map (written out, not computed — distance
+  metrics misfile hues quietly), flattening gradients Android would need extra
+  machinery for, and dropping no-op clips. For a tile it re-reads each fill as
+  figure or ground by lightness and emits white (solid or `#8CFFFFFF`); three
+  knockout drawings are listed in `INVERTED` because the rule reads them
+  backwards. An unmapped colour **stops the build** rather than being guessed.
+- **`authored_symbols.py`** draws the three glyphs the pack does not contain, in
+  the same language (512 viewport, ~56px margin, solid fills, no strokes, no
+  gradients on a mark).
+- **`static/`** holds four tiles that are themselves the source of truth —
+  plain hand-written XML, copied as-is, regenerated by nothing.
 
-The design session owns migrating these sources + generator into this repo so
-every app builds its tiles from one place. Until then, the SVGs and the script
-live in Explorer's tree and are pulled from there.
+```sh
+pip install cairosvg pillow        # only needed for the preview scripts
+python3 icons/build_from_svg.py    --out <app>/app/src/main/res/drawable
+python3 icons/authored_symbols.py  --out <app>/app/src/main/res/drawable
+cp icons/static/*.xml              <app>/app/src/main/res/drawable/
+```
+
+With no `--out`, each script writes to `icons/build/` for preview. The generated
+drawables carry a `Do not edit by hand` header naming the script — a change goes
+into the script (or the SVG, or `static/`), never into the emitted XML.
+
+## A baseline note: the flat-glyph clay is `#C5613F`
+
+`RECOLOUR` sends the pack's primary blue to `#C5613F`, the clay *before* the 5%
+darkening that took the theme brand to `#B95B3B` for WCAG AA (see
+`../tokens/color.md`). So a pack-derived flat glyph like `ic_flat_folder` carries
+the lighter clay, while the theme's `primary` and the folder **tile hue** are the
+darkened `#B95B3B`. This is Explorer's shipping baseline, kept as-is. It is a
+candidate for a future deliberate unification — which, like any baseline change,
+happens here first and is announced to the app sessions, never edited silently.
+
+## How an app adopts these
+
+An app pulls `OLO-Design` and runs the two scripts with `--out` pointed at its
+own `res/drawable`, then copies `static/`. It does **not** fork the SVG sources
+or the recolour table into its own tree; those stay here so every app's symbols
+move together. See `../docs/CONSUMING.md` for the exact per-app steps.

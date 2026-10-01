@@ -1,0 +1,5 @@
+# Local build/preview output from the icon scripts.
+icons/build/
+appicons/build/
+__pycache__/
+*.pyc

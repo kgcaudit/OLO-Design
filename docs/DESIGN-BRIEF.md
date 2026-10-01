@@ -18,8 +18,9 @@ white mark apiece.
 |------|-------|
 | `tokens/color.md` | the canonical palette — brand, light/dark roles, status, tiles |
 | `tokens/type-shape.md` | the four shape radii and the type overrides |
-| `icons/` | the tile symbol set + the two-tone-white rule + FileKind mapping; eventually the SVG sources and `build_from_svg.py` |
-| `appicons/` | the shared launcher frame + the per-app mark; eventually the authoring script |
+| `icons/` | the tile symbol set + the two-tone-white rule + the `FileKind` contract (`FILEKIND.md`); the SVG sources (`svg/`), the tile/flat build (`build_from_svg.py`), the authored glyphs (`authored_symbols.py`) and the static tiles (`static/`) |
+| `appicons/` | the shared launcher frame + the per-app marks, drawn from `launcher.py`; the adaptive-icon wrappers in `mipmap/` |
+| `docs/CONSUMING.md` | what each app copies or builds, and where it goes |
 | `docs/` | this charter and any design notes |
 
 Everything is seeded from **OLO Explorer** (`kgcaudit/filezilla-client`), the

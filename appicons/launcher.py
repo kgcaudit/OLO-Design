@@ -324,7 +324,11 @@ def _ring_band(cx, cy, ro, ri, a0, a1, steps=48) -> list[tuple[float, float]]:
 
 def mark_cycle() -> list[str]:
     cx = cy = 256.0
-    ro, ri = 136.0, 94.0
+    # Pulled in from ro=136/ri=94/head_ext=20, which put the arrowhead's outer
+    # corner at radius 156 -- right on the 156.4 safe-zone edge, the heaviest
+    # mark in the row. These give a ~10px margin inside the circular mask and
+    # bring the loop's visual weight closer to the folder and the book.
+    ro, ri = 128.0, 88.0
     rmid = (ro + ri) / 2.0
     # Screen y is down, so angles run clockwise on screen. Sweep from the top
     # gap round almost the whole way; the arrowhead sits at the leading end.
@@ -335,7 +339,7 @@ def mark_cycle() -> list[str]:
 
     # The arrowhead: a triangle wider than the band, its tip carried a little
     # further along the sweep so the loop looks like it is still turning.
-    head_ext = 20.0
+    head_ext = 16.0
     head_adv = math.radians(26.0)
     base_out = (cx + (ro + head_ext) * math.cos(a1), cy + (ro + head_ext) * math.sin(a1))
     base_in = (cx + (ri - head_ext) * math.cos(a1), cy + (ri - head_ext) * math.sin(a1))
@@ -380,8 +384,16 @@ def _page(sign: float) -> str:
     )
 
 
+# The whole book, scaled in towards the centre. At full size the page corners
+# reached radius ~168 -- past the 156.4 safe circle -- so the outer edges were
+# clipped under a round mask and the book sat heavier than its siblings. 0.82
+# brings the width to ~48% (the folder's) and the corners well inside the mask;
+# the spine gap and the page curves are unchanged, only the size.
+EBOOK_SCALE = 0.82
+
+
 def mark_ebook() -> list[str]:
-    return [_page(-1.0), _page(1.0)]
+    return [scaled(_page(-1.0), EBOOK_SCALE), scaled(_page(1.0), EBOOK_SCALE)]
 
 
 # ---------------------------------------------------------------------------

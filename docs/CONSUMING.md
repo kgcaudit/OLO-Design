@@ -41,6 +41,14 @@ Copy, as Compose values, keeping every name and hex/dp/sp exact:
 
 An app may *add* roles it needs; it may not change these baseline values locally.
 
+**No-pill buttons.** `OloShapes` alone does not fix button corners: Material3's
+`Button`/`OutlinedButton`/`TextButton`/`FilledTonalButton`/`ElevatedButton`
+default to a fully-rounded pill, independent of the theme. Give every such button
+`shape = MaterialTheme.shapes.small` (10.dp) — ideally via one shared
+`OloButton` wrapper so a bare `Button` can't regress. `FloatingActionButton`,
+`ExtendedFloatingActionButton` and `IconButton` are not pills and are left as-is.
+See `../tokens/type-shape.md`.
+
 ## 2. Tiles and flat glyphs → the app's drawables
 
 **Source:** `icons/svg/` + `icons/build_from_svg.py` + `icons/authored_symbols.py`

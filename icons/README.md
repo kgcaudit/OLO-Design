@@ -39,29 +39,35 @@ Flat toolbar glyphs are the `ic_flat_*` set (`folder`, `server`, `transfers`,
 See `FILEKIND.md` for the canonical `FileKind` set, the extension→kind table,
 and the kind→hue / kind→glyph maps that every app must mirror exactly.
 
-## Menu glyphs (`ic_menu_*`)
+## Control glyphs (`ic_menu_*`, `ic_action_*`)
 
-A second, smaller glyph language for **menu / dropdown rows** (sort, view,
-overflow). Where tiles are white masses on a coloured square, these are **line**
-marks: a `24dp` viewport, one stroke weight (`1.9`, round cap + join), no fill
-(bar a couple of solid accents — the slider knobs, the note head), and **one
-colour the app tints** to match the row's text (`app:iconTint` on a `MenuItem`,
-`app:tint` / `android:tint` on an `ImageView`). This keeps an app's menus in the
-OLO hand instead of a mix of Material icons.
+A third glyph layer for **menu / dropdown rows** (`ic_menu_*`) and **in-app
+actions** (`ic_action_*`) — sort, view, refresh, rotate, delete, and so on.
+These are **drawn from the one source art pack**, same as the tiles: every
+control the pack already has is taken from it and flattened to a single ink;
+only the controls the pack has no drawing for are hand-authored, to the pack's
+weight, so the two read as one hand.
 
-| Group | Glyphs |
-|-------|--------|
-| **Sort keys** | `sort_name` (A·Z), `sort_date` (clock), `sort_size` (bars), `sort_type` (tag) |
-| **Direction** | `sort_asc` (↑), `sort_desc` (↓) |
-| **Scope / grouping / toggle** | `scope_folder` (pin — apply to this folder only), `folders_first` (folder + ▲), `hidden` (eye — show hidden) |
-| **View** | `view_list`, `view_grid` |
-| **Actions** | `refresh`, `search`, `playlist`, `settings` (sliders) |
+- **Pack-derived** (verbatim pack geometry): `refresh`, `search`, `settings`
+  (gear), `sort_date` (clock), `sort_type` (tag), `scope_folder` (pin),
+  `hidden` (padlock — the pack's `070 잠금,숨김`), `delete` (bin);
+  `folders_first` and `location_off` build on the pack's folder / pin.
+- **Hand-authored gaps**: `sort_name` (A·Z), `sort_size` (bars), `sort_asc`,
+  `sort_desc`, `view_list`, `view_grid`, `playlist`, `rotate_left`,
+  `rotate_right`, `map`.
 
-The view/refresh/search/playlist/settings five replace the Material ViewList /
-GridView / Refresh / Search / QueueMusic / Settings so a whole menu is one
-family. Authored in `menu_symbols.py` (24 viewport, line, tint-ready) — a
-different language from the tiles on purpose; its baseline is stated at the top
-of that file and a change to it is a universe change, announced.
+**Finish — one hue, tint-ready.** 24×24 viewport; a single ink with the pack
+figure solid, the pale body at ~40% (`BODY`), the pack's white detail handled
+per glyph (dropped, kept as an inset, or inverted to draw a clock's hands / a
+pin's centre). The RGB is a neutral fallback — the app **tints** the glyph to
+its row's text colour (`app:iconTint` on a `MenuItem`, `app:tint` /
+`android:tint` on an `ImageView`, `tint =` on a Compose `Icon`), and the baked
+alphas survive the tint. `refresh/search/settings/view_list/view_grid` replace
+the Material equivalents so a whole menu is one family; `ic_action_*` register
+one-glyph-one-action in an app's IconMeaningTest.
+
+Authored in `control_symbols.py` (its per-glyph recipe and baseline sit at the
+top of that file); a change there is a universe change, announced.
 
 ## What is here
 
@@ -70,7 +76,7 @@ of that file and a change to it is a universe change, announced.
 | `svg/` | the icon pack's SVG sources (126 drawings); only a subset is mapped to symbols |
 | `build_from_svg.py` | SVG → vector-drawable builder for the pack-derived tiles and flat glyphs, recolouring as it goes |
 | `authored_symbols.py` | the in-app glyphs the pack has no drawing for — `transfers`, `log`, `alert` |
-| `menu_symbols.py` | the `ic_menu_*` line glyphs for menu / dropdown rows (24dp, tint-ready) |
+| `control_symbols.py` | the `ic_menu_*` / `ic_action_*` control glyphs — pack-derived where the pack has one, hand-authored for the gaps (24dp, tint-ready) |
 | `static/` | the hand-authored tiles that no script generates — `comic`, `book`, `bookmark`, `recents`, `trash` |
 
 (The launcher / app-icon marks are their own thing and live in `../appicons/`.)

@@ -69,20 +69,24 @@ This produces the full set: content-kind tiles, place/action tiles, and the
 drawables it does not reference after the build; it does **not** fork the SVG
 sources or the `RECOLOUR` table into its own tree.
 
-**Menu glyphs (`ic_menu_*`).** The line glyphs for menu / dropdown rows (sort,
-view, overflow) build from a separate script:
+**Control glyphs (`ic_menu_*`, `ic_action_*`).** The glyphs for menu / dropdown
+rows and in-app actions (sort, view, refresh, rotate, delete, …) build from a
+separate script — pack-derived where the pack has a drawing, hand-authored for
+the gaps:
 
 ```sh
-python3 icons/menu_symbols.py --out <app>/app/src/main/res/drawable
+python3 icons/control_symbols.py --out <app>/app/src/main/res/drawable
 ```
 
-They are `24dp`, single-colour line marks — **tint them** to match the row's
-text: `app:iconTint` on a `MenuItem`, `app:tint` / `android:tint` on an
-`ImageView`, or `tint = <text colour>` for a Compose `Icon`. The
-`view_list/_view_grid/_refresh/_search/_playlist/_settings` five replace the
-Material ViewList / GridView / Refresh / Search / QueueMusic / Settings icons so
-a whole menu reads as one family; an app uses only the ones its menus reference.
-See `../icons/README.md` (“Menu glyphs”) for the full list and the baseline.
+They are `24dp`, single-ink and **tint-ready** — **tint them** to match the
+row's text: `app:iconTint` on a `MenuItem`, `app:tint` / `android:tint` on an
+`ImageView`, or `tint = <text colour>` for a Compose `Icon` (the baked figure/
+body alphas survive the tint). `refresh/search/settings/view_list/view_grid`
+replace the Material ViewList / GridView / Refresh / Search / Settings icons so a
+whole menu reads as one family; `ic_action_*` are the in-app action layer
+(register one-glyph-one-action in the app's IconMeaningTest). An app uses only
+the ones it references. See `../icons/README.md` (“Control glyphs”) for the full
+list and the baseline.
 
 Two rules the rendering code must honour (see `icons/README.md`):
 
@@ -132,7 +136,7 @@ changed:
 | What moved here | App re-does |
 |-----------------|-------------|
 | a hex / radius / type size / tile hue | step 1 (Theme.kt) — and step 2 if a tile hue moved behind a white glyph that must stay readable |
-| an SVG source, the recolour table, an authored/static glyph, or a menu glyph | step 2 |
+| an SVG source, the recolour table, an authored/static glyph, or a control glyph | step 2 |
 | the FileKind set, extension table, or a map | step 3 (and step 2 if a glyph was added) |
 | the launcher frame or a mark | step 4 |
 

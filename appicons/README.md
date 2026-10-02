@@ -15,10 +15,14 @@ light to deep, not several colours).
   gradation** (`#F0A684 → #E8855F → #C5613F → #A64D30`) with a soft sheen. One
   hue, brightness-graded. Shared, identical for every app
   (`ic_launcher_background.xml`).
-- **Mark** — **white**, in the sumi manner: solid ink masses (folder, book,
-  play) together with **variable-width brushed lines** (the rays, the book
-  spine, and Cycle's ensō). Kept inside the adaptive safe circle (radius 156.4
-  of 512) so nothing clips under a round mask (`ic_launcher_foreground.xml`).
+- **Mark** — **white**, in the sumi manner: solid ink masses (folder, book
+  cover, play triangle) together with **variable-width brushed lines** (the
+  folder and document contours, the book pages and spine, Cycle's ensō and its
+  drop). Each stroke is its own **translucent** layer, so where strokes cross —
+  a fold, a contour, a spine — the white deepens on the object's defining
+  structure, not decoratively. Every mark is auto-fitted to the adaptive safe
+  circle (radius 156.4 of 512) so nothing clips under a round mask
+  (`ic_launcher_foreground.xml`).
 - **Monochrome** — the same white mark for themed-icon mode
   (`ic_launcher_monochrome.xml`); the launcher flattens it to one tint.
 
@@ -35,10 +39,10 @@ carried by the stroke-width variation and the value gradation instead.
 
 | App | Mark |
 |-----|------|
-| **OLO Explorer** | a folder with files flying off as tapered brush strokes |
-| **OLO Cycle** | an **ensō** — a brushed open circle, a cycle told calmly and discreetly, with a marker (period tracking; no pink, no flower, no drop) |
-| **OLO eBook** | an open book — two pages and a brushed spine |
-| **OLO Player** | a play triangle with tapered sound strokes (video + music) |
+| **OLO Explorer** | a filled folder with a small lined document sheet above it |
+| **OLO Cycle** | an **ensō** — a brushed open circle — with a free, asymmetric **water-drop** whose tail touches the ring: period tracking, told calmly and discreetly (no pink, no flower) |
+| **OLO eBook** | an open book — a filled cover, two brushed pages and a deep spine fold |
+| **OLO Player** | a filled play triangle inside a brushed double ring (video + music) |
 
 **No sunburst.** The radial burst is Anthropic's / Claude's brand mark, not
 ours; we borrow the clay depth and the brush hand, and keep our own metaphors so

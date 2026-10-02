@@ -40,12 +40,14 @@ record to move them.
    script, and the icon-authoring script into this repo so every app builds its
    symbols and icons from one place rather than from Explorer's tree.
 3. **Draw the family out.** Settle the per-app launcher marks (Explorer=folder+
-   flying files, Player=play+sound, Cycle=ensō for period tracking, eBook=open
-   book). The icons are white **ink-brush** marks (sumi: solid masses + variable
-   -width brushed lines) on a shared clay **value-gradation** ground — one hue
-   graded by brightness, plus white (a per-app accent would be the third colour,
-   unused today). No sunburst (Anthropic's mark); identity is the metaphor, never
-   a second palette. See `../appicons/README.md`.
+   document, Player=play triangle in a ring, Cycle=ensō + water-drop for period
+   tracking, eBook=open book). The icons are white **ink-brush** marks (sumi:
+   solid masses + variable-width brushed lines, each stroke a translucent layer
+   so overlaps deepen on an object's structure) on a shared clay
+   **value-gradation** ground — one hue graded by brightness, plus white (a
+   per-app accent would be the third colour, unused today). No sunburst
+   (Anthropic's mark); identity is the metaphor, never a second palette. See
+   `../appicons/README.md`.
 4. **Document consumption.** For each token/icon group, say exactly what an app
    copies and where it goes (Explorer keeps colour+type+shape in
    `ui/theme/Theme.kt`, tiles in `res/drawable/`). An app pulls; it does not

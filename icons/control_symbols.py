@@ -249,6 +249,9 @@ def _composed() -> dict:
         # box (pack) + an up-arrow out: unarchive (marker keeps the pale body)
         "ic_menu_unarchive": mono("045.상자", "marker") + [
             S("M12,9 L12,2.5"), S("M9,5 L12,2.2 L15,5")],
+        # box (pack) + a down-arrow in: compress (the pair of unarchive)
+        "ic_action_compress": mono("045.상자", "marker") + [
+            S("M12,2.5 L12,8"), S("M9,5.5 L12,8.5 L15,5.5")],
         # folder (pack) + a plus: new folder
         "ic_menu_new_folder": mono("012.폴더,저장소", "silhouette") + [
             S("M16.5,15 L21,15"), S("M18.75,12.75 L18.75,17.25")],

@@ -53,7 +53,8 @@ weight, so the two read as one hand.
   `hidden` (padlock — the pack's `070 잠금,숨김`), `delete` (bin), `select`
   (check-in-circle — `113 승인,완료`), `copy` (`028`), `paste` (`029`), `rename`
   (pencil `082`), `share` (`009`); `folders_first`, `location_off`, `unarchive`,
-  `new_folder` and `new_file` build on the pack's folder / pin / box / document.
+  `compress` (its pair — box + a down-arrow in), `new_folder` and `new_file`
+  build on the pack's folder / pin / box / document.
 - **Hand-authored gaps**: `sort_name` (A·Z), `sort_size` (bars), `sort_asc`,
   `sort_desc`, `view_list`, `view_grid`, `view_gallery` (stacked photo),
   `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`,

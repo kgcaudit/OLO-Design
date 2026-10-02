@@ -203,6 +203,21 @@ GAPS = {
           "Q14.5,14.5 13,14.5 L7,14.5 Q5.5,14.5 5.5,13 Z"),
         S("M12,18.5 L19,18.5 L19,11.5"), S("M16,15.5 L19,18.5"),
     ],
+    # --- toolbar / selection-bar actions (pack has no drawing) ---
+    "ic_action_cut": [              # scissors: two finger rings + crossing blades
+        C(6.6, 7.6, 2.0), C(6.6, 16.4, 2.0),
+        S("M8.4,8.6 L19,16"), S("M8.4,15.4 L19,8"),
+    ],
+    "ic_action_close": [S("M6,6 L18,18", 2.2), S("M18,6 L6,18", 2.2)],
+    "ic_action_merge": [           # two stems converge into one down-arrow
+        S("M6,4 L6,8.5 Q6,11.5 9,12.8 L12,14"),
+        S("M18,4 L18,8.5 Q18,11.5 15,12.8 L12,14"),
+        S("M12,14 L12,19.5"), S("M9,16.5 L12,19.5 L15,16.5"),
+    ],
+    "ic_action_download": [        # tray + a down arrow
+        S("M4,15 L4,19 Q4,20 5,20 L19,20 Q20,20 20,19 L20,15"),
+        S("M12,4 L12,14"), S("M8,10 L12,14 L16,10"),
+    ],
 }
 
 # ---- pack-derived (verbatim pack geometry, flattened to one ink) ------------
@@ -217,6 +232,11 @@ PACK = {
     "ic_menu_hidden": ("070.잠금,숨김", "twotone"),       # padlock
     "ic_action_delete": ("030.휴지통,삭제", "twotone"),   # bin + ribs
     "ic_menu_select": ("113.승인,완료", "invert"),        # pale disc, solid check
+    # in-app action / toolbar layer (ic_action_*), pack-derived where it exists
+    "ic_action_copy": ("028.복사", "marker"),             # two sheets (back at 40%)
+    "ic_action_paste": ("029.붙여넣기", "marker"),        # clipboard + page
+    "ic_action_rename": ("082.연필", "silhouette"),       # pencil
+    "ic_action_share": ("009.공유", "twotone"),           # three nodes + links
 }
 
 # ---- composed: a pack glyph plus a hand mark -------------------------------
@@ -232,6 +252,9 @@ def _composed() -> dict:
         # folder (pack) + a plus: new folder
         "ic_menu_new_folder": mono("012.폴더,저장소", "silhouette") + [
             S("M16.5,15 L21,15"), S("M18.75,12.75 L18.75,17.25")],
+        # document (pack) + a plus: new file (marker keeps the page body)
+        "ic_action_new_file": mono("001.문서,글", "marker") + [
+            S("M15.5,18 L21,18"), S("M18.25,15.25 L18.25,20.75")],
     }
 
 

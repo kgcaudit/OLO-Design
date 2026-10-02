@@ -51,13 +51,24 @@ weight, so the two read as one hand.
 - **Pack-derived** (verbatim pack geometry): `refresh`, `search`, `settings`
   (gear), `sort_date` (clock), `sort_type` (tag), `scope_folder` (pin),
   `hidden` (padlock — the pack's `070 잠금,숨김`), `delete` (bin), `select`
-  (check-in-circle — the pack's `113 승인,완료`); `folders_first`, `location_off`,
-  `unarchive` and `new_folder` build on the pack's folder / pin / box.
+  (check-in-circle — `113 승인,완료`), `copy` (`028`), `paste` (`029`), `rename`
+  (pencil `082`), `share` (`009`); `folders_first`, `location_off`, `unarchive`,
+  `new_folder` and `new_file` build on the pack's folder / pin / box / document.
 - **Hand-authored gaps**: `sort_name` (A·Z), `sort_size` (bars), `sort_asc`,
   `sort_desc`, `view_list`, `view_grid`, `view_gallery` (stacked photo),
   `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`,
   `more` (⋮), `upload`, `sync`, `select_all`, `view_options` (sliders),
-  `associations` (app + open-out arrow).
+  `associations` (app + open-out arrow), `cut` (scissors), `close` (X),
+  `merge`, `download`.
+
+The toolbar / selection-bar actions carry the `ic_action_*` prefix (the in-app
+action layer), the menu/dropdown rows `ic_menu_*`; both are one hand. Because a
+few actions (new_folder, unarchive, select, select_all) appear in both menus and
+toolbars, the family is now drawn app-wide so one action reads the same on every
+surface — this supersedes the earlier `build_from_svg.py` note that controls
+stay Material (a deliberate, announced universe change). A grid's *selection
+state* badge is a state, not an action, and keeps its own indicator rather than
+re-using `ic_menu_select`.
 
 **Finish — one hue, tint-ready.** 24×24 viewport; a single ink with the pack
 figure solid, the pale body at ~40% (`BODY`), the pack's white detail handled

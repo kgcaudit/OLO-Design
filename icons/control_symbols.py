@@ -126,6 +126,11 @@ def F(d: str) -> tuple:                      # a hand solid fill
     return (d, INK, None, False)
 
 
+def C(cx: float, cy: float, r: float) -> tuple:   # a hand solid dot / disc
+    return F(f"M{cx - r},{cy} A{r},{r} 0 1 0 {cx + r},{cy} "
+             f"A{r},{r} 0 1 0 {cx - r},{cy} Z")
+
+
 # ---- hand-authored gaps (pack has no drawing), drawn to the pack weight -----
 GAPS = {
     "ic_menu_sort_name": [
@@ -176,6 +181,28 @@ GAPS = {
         S("M3.5,6.5 L9,4.5 L15,6.5 L20.5,4.5 L20.5,17.5 L15,19.5 L9,17.5 L3.5,19.5 Z"),
         S("M9,4.5 L9,17.5"), S("M15,6.5 L15,19.5"),
     ],
+    # --- overflow / app-wide actions (pack has no drawing; drawn to its weight) ---
+    "ic_menu_more": [C(12, 5.6, 1.6), C(12, 12, 1.6), C(12, 18.4, 1.6)],
+    "ic_menu_upload": [
+        S("M4,15 L4,19 Q4,20 5,20 L19,20 Q20,20 20,19 L20,15"),
+        S("M12,16.5 L12,5"), S("M8,9 L12,5 L16,9"),
+    ],
+    "ic_menu_sync": [
+        S("M5,11 A7,7 0 0 1 16.8,6.9"), S("M14.2,6.2 L17.2,6.8 L16.6,9.9"),
+        S("M19,13 A7,7 0 0 1 7.2,17.1"), S("M9.8,17.8 L6.8,17.2 L7.4,14.1"),
+    ],
+    "ic_menu_select_all": [
+        S("M2.5,12 L6,15.5 L11.5,9"), S("M9.5,12.5 L13,16 L21.5,6.5"),
+    ],
+    "ic_menu_view_options": [       # tune / sliders
+        S("M4,7 L20,7"), S("M4,12 L20,12"), S("M4,17 L20,17"),
+        C(8, 7, 2), C(15, 12, 2), C(10, 17, 2),
+    ],
+    "ic_menu_associations": [       # an app square + an "open out" arrow
+        S("M5.5,7 Q5.5,5.5 7,5.5 L13,5.5 Q14.5,5.5 14.5,7 L14.5,13 "
+          "Q14.5,14.5 13,14.5 L7,14.5 Q5.5,14.5 5.5,13 Z"),
+        S("M12,18.5 L19,18.5 L19,11.5"), S("M16,15.5 L19,18.5"),
+    ],
 }
 
 # ---- pack-derived (verbatim pack geometry, flattened to one ink) ------------
@@ -189,6 +216,7 @@ PACK = {
     "ic_menu_scope_folder": ("055.위치,GPS", "invert"),   # pale pin, solid centre dot
     "ic_menu_hidden": ("070.잠금,숨김", "twotone"),       # padlock
     "ic_action_delete": ("030.휴지통,삭제", "twotone"),   # bin + ribs
+    "ic_menu_select": ("113.승인,완료", "invert"),        # pale disc, solid check
 }
 
 # ---- composed: a pack glyph plus a hand mark -------------------------------
@@ -198,6 +226,12 @@ def _composed() -> dict:
         "ic_menu_folders_first": mono("012.폴더,저장소", "silhouette") + [S("M9.2,15 L12,12.2 L14.8,15", 2.2)],
         # location pin (pack) + a slash: remove location
         "ic_action_location_off": mono("055.위치,GPS", "invert") + [S("M4,4 L20,20", 2.2)],
+        # box (pack) + an up-arrow out: unarchive (marker keeps the pale body)
+        "ic_menu_unarchive": mono("045.상자", "marker") + [
+            S("M12,9 L12,2.5"), S("M9,5 L12,2.2 L15,5")],
+        # folder (pack) + a plus: new folder
+        "ic_menu_new_folder": mono("012.폴더,저장소", "silhouette") + [
+            S("M16.5,15 L21,15"), S("M18.75,12.75 L18.75,17.25")],
     }
 
 

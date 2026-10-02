@@ -50,11 +50,14 @@ weight, so the two read as one hand.
 
 - **Pack-derived** (verbatim pack geometry): `refresh`, `search`, `settings`
   (gear), `sort_date` (clock), `sort_type` (tag), `scope_folder` (pin),
-  `hidden` (padlock — the pack's `070 잠금,숨김`), `delete` (bin);
-  `folders_first` and `location_off` build on the pack's folder / pin.
+  `hidden` (padlock — the pack's `070 잠금,숨김`), `delete` (bin), `select`
+  (check-in-circle — the pack's `113 승인,완료`); `folders_first`, `location_off`,
+  `unarchive` and `new_folder` build on the pack's folder / pin / box.
 - **Hand-authored gaps**: `sort_name` (A·Z), `sort_size` (bars), `sort_asc`,
   `sort_desc`, `view_list`, `view_grid`, `view_gallery` (stacked photo),
-  `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`.
+  `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`,
+  `more` (⋮), `upload`, `sync`, `select_all`, `view_options` (sliders),
+  `associations` (app + open-out arrow).
 
 **Finish — one hue, tint-ready.** 24×24 viewport; a single ink with the pack
 figure solid, the pale body at ~40% (`BODY`), the pack's white detail handled

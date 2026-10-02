@@ -39,6 +39,30 @@ Flat toolbar glyphs are the `ic_flat_*` set (`folder`, `server`, `transfers`,
 See `FILEKIND.md` for the canonical `FileKind` set, the extension→kind table,
 and the kind→hue / kind→glyph maps that every app must mirror exactly.
 
+## Menu glyphs (`ic_menu_*`)
+
+A second, smaller glyph language for **menu / dropdown rows** (sort, view,
+overflow). Where tiles are white masses on a coloured square, these are **line**
+marks: a `24dp` viewport, one stroke weight (`1.9`, round cap + join), no fill
+(bar a couple of solid accents — the slider knobs, the note head), and **one
+colour the app tints** to match the row's text (`app:iconTint` on a `MenuItem`,
+`app:tint` / `android:tint` on an `ImageView`). This keeps an app's menus in the
+OLO hand instead of a mix of Material icons.
+
+| Group | Glyphs |
+|-------|--------|
+| **Sort keys** | `sort_name` (A·Z), `sort_date` (clock), `sort_size` (bars), `sort_type` (tag) |
+| **Direction** | `sort_asc` (↑), `sort_desc` (↓) |
+| **Scope / grouping / toggle** | `scope_folder` (pin — apply to this folder only), `folders_first` (folder + ▲), `hidden` (eye — show hidden) |
+| **View** | `view_list`, `view_grid` |
+| **Actions** | `refresh`, `search`, `playlist`, `settings` (sliders) |
+
+The view/refresh/search/playlist/settings five replace the Material ViewList /
+GridView / Refresh / Search / QueueMusic / Settings so a whole menu is one
+family. Authored in `menu_symbols.py` (24 viewport, line, tint-ready) — a
+different language from the tiles on purpose; its baseline is stated at the top
+of that file and a change to it is a universe change, announced.
+
 ## What is here
 
 | Path | Holds |
@@ -46,6 +70,7 @@ and the kind→hue / kind→glyph maps that every app must mirror exactly.
 | `svg/` | the icon pack's SVG sources (126 drawings); only a subset is mapped to symbols |
 | `build_from_svg.py` | SVG → vector-drawable builder for the pack-derived tiles and flat glyphs, recolouring as it goes |
 | `authored_symbols.py` | the in-app glyphs the pack has no drawing for — `transfers`, `log`, `alert` |
+| `menu_symbols.py` | the `ic_menu_*` line glyphs for menu / dropdown rows (24dp, tint-ready) |
 | `static/` | the hand-authored tiles that no script generates — `comic`, `book`, `bookmark`, `recents`, `trash` |
 
 (The launcher / app-icon marks are their own thing and live in `../appicons/`.)

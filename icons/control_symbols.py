@@ -218,6 +218,7 @@ GAPS = {
         S("M4,15 L4,19 Q4,20 5,20 L19,20 Q20,20 20,19 L20,15"),
         S("M12,4 L12,14"), S("M8,10 L12,14 L16,10"),
     ],
+    "ic_action_check": [S("M4.5,12.5 L10,18 L19.5,6.5", 2.3)],  # save / done (bare check)
 }
 
 # ---- pack-derived (verbatim pack geometry, flattened to one ink) ------------

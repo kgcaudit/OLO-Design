@@ -164,6 +164,19 @@ def arc(a0, a1, R, n=48, wob=4, ph=0, cx=CX, cy=CY):
             for i in range(n)]
 
 
+def ring_band(pts, hw):
+    """A CLOSED variable-width ring as two concentric contours + even-odd, so the
+    hole is cut on every renderer. A single out-and-back `strk` contour relies on
+    non-zero winding and fills as a solid disk under Android's VectorDrawable
+    renderer -- this does not. Emitted with >1 'Z' so mark_vector sets evenOdd."""
+    nm = _normals(pts)
+    outer = [(pts[i][0] + nm[i][0] * hw[i], pts[i][1] + nm[i][1] * hw[i]) for i in range(len(pts))]
+    inner = [(pts[i][0] - nm[i][0] * hw[i], pts[i][1] - nm[i][1] * hw[i]) for i in range(len(pts))]
+    d = "M%.1f,%.1f " % outer[0] + "".join("L%.1f,%.1f " % p for p in outer[1:]) + "Z "
+    d += "M%.1f,%.1f " % inner[0] + "".join("L%.1f,%.1f " % p for p in inner[1:]) + "Z"
+    return d
+
+
 def wline(p0, p1, hi, op, n=14):
     return (strk(quad(p0, ((p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2 - 2), p1, n),
                  wmod(n, 0.8, hi, 1, 0.2)), op)
@@ -302,8 +315,10 @@ def mark_ebook():
 
 def mark_player():
     s = []
-    s.append((strk(arc(0, 360, 152, 72, 4), wmod(72, 2.5, 6)), CT))         # ring
-    s.append((strk(arc(14, 360, 144, 66, 5, 1.2), wmod(66, 2, 4.5)), 0.55))  # second pass overlaps
+    # closed ring: two concentric contours + even-odd so the hole is cut on
+    # Android (a single out-and-back contour fills as a disk there).
+    s.append((ring_band(arc(0, 360, 152, 72, 4), wmod(72, 2.5, 6)), CT))     # ring
+    s.append((strk(arc(14, 352, 144, 66, 5, 1.2), wmod(66, 2, 4.5)), 0.55))  # open second pass overlaps
     s.append((fillpoly([(214, 182), (342, 256), (214, 330)], bow=4, jit=2), 0.72))  # play triangle
     s += dbl((214, 182), (300, 214), (342, 256), 5, FOLD, j=2.2)
     s += dbl((342, 256), (300, 298), (214, 330), 5, FOLD, j=2.2)
@@ -375,6 +390,8 @@ def mark_vector(strokes):
         lines.append("    <path")
         lines.append(f'        android:fillColor="{WHITE}"')
         lines.append(f'        android:fillAlpha="{alpha:.2f}"')
+        if data.count("Z") > 1:  # a compound (multi-contour) path -> cut holes
+            lines.append('        android:fillType="evenOdd"')
         lines.append(f'        android:pathData="{data}" />')
     lines.append("</vector>")
     return "\n".join(lines) + "\n"

@@ -53,8 +53,8 @@ weight, so the two read as one hand.
   `hidden` (padlock — the pack's `070 잠금,숨김`), `delete` (bin);
   `folders_first` and `location_off` build on the pack's folder / pin.
 - **Hand-authored gaps**: `sort_name` (A·Z), `sort_size` (bars), `sort_asc`,
-  `sort_desc`, `view_list`, `view_grid`, `playlist`, `rotate_left`,
-  `rotate_right`, `map`.
+  `sort_desc`, `view_list`, `view_grid`, `view_gallery` (stacked photo),
+  `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`.
 
 **Finish — one hue, tint-ready.** 24×24 viewport; a single ink with the pack
 figure solid, the pale body at ~40% (`BODY`), the pack's white detail handled

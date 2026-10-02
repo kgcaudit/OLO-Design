@@ -49,6 +49,22 @@ default to a fully-rounded pill, independent of the theme. Give every such butto
 `ExtendedFloatingActionButton` and `IconButton` are not pills and are left as-is.
 See `../tokens/type-shape.md`.
 
+**Primary FAB wears the brand, not the tonal default.** Material3's
+`FloatingActionButton` defaults its container to `primaryContainer` — in this
+palette the pale clay-peach `#F6E0D6`, which reads washed-out and faintly pink for
+what is the screen's **primary action**. Give the main FAB
+`containerColor = MaterialTheme.colorScheme.primary` and
+`contentColor = MaterialTheme.colorScheme.onPrimary` so it stands on the brand
+clay with a crisp glyph. Bind to the **role tokens**, never a hardcoded
+`#B95B3B` / white: light theme resolves to Clay + white (AA, 4.54:1), and dark
+theme flips `primary` to ClayLight `#E8A183` with a dark `onPrimary`, which a
+hardcoded white icon would fail. The solid clay also matches the folder tile hue,
+so the primary action and the brand read as one. A **speed-dial's sub-action
+pills / mini-FABs stay `secondaryContainer`** (warm greige) — the hierarchy is
+primary FAB leads, sub-actions recede; promoting them to clay flattens it. An
+`ExtendedFloatingActionButton` that *is* the same primary action takes the same
+`primary` / `onPrimary`; a secondary one stays on its container token.
+
 ## 2. Tiles and flat glyphs → the app's drawables
 
 **Source:** `icons/svg/` + `icons/build_from_svg.py` + `icons/authored_symbols.py`

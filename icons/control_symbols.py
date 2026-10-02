@@ -249,8 +249,11 @@ PACK = {
 # ---- composed: a pack glyph plus a hand mark -------------------------------
 def _composed() -> dict:
     return {
-        # folder (pack) + an up-chevron: folders to the top
-        "ic_menu_folders_first": mono("012.폴더,저장소", "silhouette") + [S("M9.2,15 L12,12.2 L14.8,15", 2.2)],
+        # folder (pack) + an up-chevron: folders to the top.
+        # marker, not silhouette: the pack folder's body is a very pale blue
+        # (#DBECFF, light .91) that silhouette's near-white rule would drop,
+        # leaving only the tab -- so the folder must keep its body at BODY(40%).
+        "ic_menu_folders_first": mono("012.폴더,저장소", "marker") + [S("M9.2,15 L12,12.2 L14.8,15", 2.2)],
         # location pin (pack) + a slash: remove location
         "ic_action_location_off": mono("055.위치,GPS", "invert") + [S("M4,4 L20,20", 2.2)],
         # box (pack) + an up-arrow out: unarchive (marker keeps the pale body)
@@ -259,8 +262,15 @@ def _composed() -> dict:
         # box (pack) + a down-arrow in: compress (the pair of unarchive)
         "ic_action_compress": mono("045.상자", "marker") + [
             S("M12,2.5 L12,8"), S("M9,5.5 L12,8.5 L15,5.5")],
-        # folder (pack) + a plus: new folder
-        "ic_menu_new_folder": mono("012.폴더,저장소", "silhouette") + [
+        # folder (pack) + a plus: new folder. marker (not silhouette) so the
+        # pale folder body survives as BODY(40%) instead of being dropped as
+        # near-white -- a full folder (tab + body), matching new_file's weight.
+        "ic_menu_new_folder": mono("012.폴더,저장소", "marker") + [
+            S("M16.5,15 L21,15"), S("M18.75,12.75 L18.75,17.25")],
+        # same mark on the in-app action layer: new_file is ic_action_, so its
+        # pair new_folder is drawn there too (identical geometry) for the FAB
+        # speed-dial / paste affordance, while ic_menu_new_folder serves menus.
+        "ic_action_new_folder": mono("012.폴더,저장소", "marker") + [
             S("M16.5,15 L21,15"), S("M18.75,12.75 L18.75,17.25")],
         # document (pack) + a plus: new file (marker keeps the page body)
         "ic_action_new_file": mono("001.문서,글", "marker") + [

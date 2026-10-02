@@ -54,7 +54,13 @@ weight, so the two read as one hand.
   (check-in-circle — `113 승인,완료`), `copy` (`028`), `paste` (`029`), `rename`
   (pencil `082`), `share` (`009`); `folders_first`, `location_off`, `unarchive`,
   `compress` (its pair — box + a down-arrow in), `new_folder` and `new_file`
-  build on the pack's folder / pin / box / document.
+  build on the pack's folder / pin / box / document. The folder marks
+  (`folders_first`, `new_folder`) read the pack folder in **marker** mode — its
+  body is a near-white pale blue, so silhouette's drop-white rule would throw the
+  body away and leave only the tab; marker keeps the body at `BODY` (40%).
+  `new_folder` is drawn on **both** layers (`ic_menu_new_folder` for menus,
+  `ic_action_new_folder` for the FAB / paste affordance), identical geometry, so
+  it pairs with `ic_action_new_file`.
 - **Hand-authored gaps**: `sort_name` (A·Z), `sort_size` (bars), `sort_asc`,
   `sort_desc`, `view_list`, `view_grid`, `view_gallery` (stacked photo),
   `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`,

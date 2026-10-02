@@ -60,8 +60,9 @@ weight, so the two read as one hand.
   `view_compact` (dense rows), `playlist`, `rotate_left`, `rotate_right`, `map`,
   `more` (⋮), `upload`, `sync`, `select_all`, `view_options` (sliders),
   `associations` (app + open-out arrow), `cut` (scissors), `close` (X),
-  `merge`, `download`, `check` (bare ✓ — save/done; the circled `select` stays
-  the *selection* glyph, so a save action and a selection state read apart).
+  `merge`, `download`, `check` (bare ✓ — done/confirm; the circled `select` stays
+  the *selection* glyph, so a confirm action and a selection state read apart),
+  `save` (floppy — write to disk, distinct from `download`'s tray-and-arrow).
 
 The toolbar / selection-bar actions carry the `ic_action_*` prefix (the in-app
 action layer), the menu/dropdown rows `ic_menu_*`; both are one hand. Because a

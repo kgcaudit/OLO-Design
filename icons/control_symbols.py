@@ -219,6 +219,12 @@ GAPS = {
         S("M12,4 L12,14"), S("M8,10 L12,14 L16,10"),
     ],
     "ic_action_check": [S("M4.5,12.5 L10,18 L19.5,6.5", 2.3)],  # save / done (bare check)
+    "ic_action_save": [            # floppy disk — write to disk (distinct from download)
+        S("M6,4.5 L15.2,4.5 L19.5,8.8 L19.5,18 Q19.5,19.5 18,19.5 L6,19.5 "
+          "Q4.5,19.5 4.5,18 L4.5,6 Q4.5,4.5 6,4.5 Z"),
+        S("M9,4.5 L9,8 L14.5,8 L14.5,4.5"),        # top shutter
+        S("M7.5,19.5 L7.5,13 L16.5,13 L16.5,19.5"),  # label plate
+    ],
 }
 
 # ---- pack-derived (verbatim pack geometry, flattened to one ink) ------------

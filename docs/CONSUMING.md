@@ -65,6 +65,39 @@ primary FAB leads, sub-actions recede; promoting them to clay flattens it. An
 `ExtendedFloatingActionButton` that *is* the same primary action takes the same
 `primary` / `onPrimary`; a secondary one stays on its container token.
 
+**Copy progress badge.** A long-running local operation (a bulk copy) shows its
+progress as a circular badge that **the primary FAB morphs into, in place** — so
+the bottom-right corner never carries two clay circles. While a copy runs the FAB
+is hidden and the badge occupies its spot; when the copy ends the badge dismisses
+and the FAB returns. (A copy is a *process/state*, not a primary action, so it
+borrows the FAB's anchor rather than competing for it.)
+
+- **Container:** a 56dp circular `Surface`, `color = surfaceContainerHighest`,
+  `shadowElevation = 6.dp` (the FAB's resting elevation, for a seamless morph).
+- **Ring:** a `CircularProgressIndicator`, 44dp across, **stroke 4dp**, with
+  `color = primary` (the clay arc) on `trackColor = outlineVariant` (pale
+  neutral). Determinate `progress = bytesDone / bytesTotal`.
+- **Three states:** (1) *preparing* — indeterminate sweep + centre `…` (the copy
+  starts immediately while the total size is summed in the background);
+  (2) *running* — determinate ring + centre `NN%`; (3) *done* — ring full +
+  `ic_action_check` (`primary`, 22dp) for ~700ms, then auto-dismiss.
+- **Percent text:** `onSurface`, 15sp, Medium. **Not** clay — clay on the pale
+  surface disc is only ~3.6:1 (below AA for text); `onSurface` clears it. Every
+  colour is a **role token**, so dark theme (ClayLight arc, light `onSurface`)
+  stays AA with no second definition.
+- **Tap → detail** (an `OloDialog`): title “복사 중”, the current file name,
+  `N/M` count, `done/total` bytes, a `LinearProgressIndicator`, and two buttons —
+  a quiet *닫기* (dismiss) and an `OutlinedButton` *중단* (stop). Stop is **not**
+  error-red: cancelling leaves the already-copied files in place, so it is a
+  neutral action, not a destructive one.
+- **Accessibility:** `contentDescription` tracks the state — “복사 중 %d%%.
+  눌러서 상세 보기.” / “복사 준비 중. 눌러서 상세 보기.” / “복사 완료.”
+- **No new glyph:** the completion tick reuses `ic_action_check`.
+
+The badge's visual owner is this design universe; an app supplies the copy engine
+(streaming copy, byte progress, cancel) and binds it to these tokens and
+dimensions. Seeded from Explorer's shipping implementation.
+
 ## 2. Tiles and flat glyphs → the app's drawables
 
 **Source:** `icons/svg/` + `icons/build_from_svg.py` + `icons/authored_symbols.py`

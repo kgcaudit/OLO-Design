@@ -18,6 +18,7 @@ white mark apiece.
 |------|-------|
 | `tokens/color.md` | the canonical palette — brand, light/dark roles, status, tiles |
 | `tokens/type-shape.md` | the four shape radii and the type overrides |
+| `tokens/sound.md` | the sound & motion rule — a sound starts and sweeps from the side the movement started (sweep, strength, when to spatialise) |
 | `icons/` | the tile symbol set + the two-tone-white rule + the `FileKind` contract (`FILEKIND.md`); the SVG sources (`svg/`), the tile/flat build (`build_from_svg.py`), the authored glyphs (`authored_symbols.py`) and the static tiles (`static/`) |
 | `appicons/` | the shared launcher frame + the per-app marks, drawn from `launcher.py`; the adaptive-icon wrappers in `mipmap/` |
 | `docs/CONSUMING.md` | what each app copies or builds, and where it goes |
@@ -63,6 +64,11 @@ record to move them.
   light ones because the glyph is always white.
 - Two-tone white glyphs render with `tint = Unspecified`.
 - Keep the FileKind set and the kind→hue map identical across all apps.
+- **Sound follows motion.** Any OLO sound effect spatialises by the rule in
+  `tokens/sound.md` — it starts and sweeps from the side the movement started,
+  only where left/right is real (earphones, landscape, ≥ 600dp), with no in-app
+  toggle. Adding a new effect means wiring it to that law, not inventing a new
+  one.
 
 ## The flow, once more
 

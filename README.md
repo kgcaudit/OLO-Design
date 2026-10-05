@@ -41,7 +41,8 @@ Clay orange on warm ivory, tight corners, and a set of rounded-square symbol
 tiles coloured by *hue* (not lightness) so nine kinds stay scannable — seeded
 from OLO Explorer, which is the most developed of the four.
 
-See `tokens/` for the exact values, `icons/` for the symbol set and the
+See `tokens/` for the exact values (colour, type/shape, and the **sound &
+motion** rule in `tokens/sound.md`), `icons/` for the symbol set and the
 `FileKind` contract, `appicons/` for the app-icon family, `docs/CONSUMING.md`
 for how an app pulls it all in, and `docs/DESIGN-BRIEF.md` for the design
 session's charter.
@@ -51,7 +52,9 @@ session's charter.
 Seeded from OLO Explorer's shipping design, and now self-contained:
 
 - **Tokens** — colour, type and shape are captured in `tokens/`, verified
-  against Explorer's shipping `Theme.kt`.
+  against Explorer's shipping `Theme.kt`; `tokens/sound.md` adds the family's
+  **sound-follows-motion** rule (a sound starts and sweeps from the side the
+  movement started), seeded from OLO eBook's page-turn effect.
 - **Symbols** — the SVG sources (`icons/svg/`), the tile/flat build
   (`icons/build_from_svg.py`), the authored glyphs (`icons/authored_symbols.py`)
   and the static tiles (`icons/static/`) all live here. The build

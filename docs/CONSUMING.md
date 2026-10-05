@@ -177,9 +177,32 @@ a shared clay **value gradation** (one hue, brightness-graded) and the mark is
 white ink-brush; see `../appicons/README.md` for the finish and the no-sunburst
 rule.
 
+## 5. Sound & motion → the app's audio / FX layer
+
+**Source:** `tokens/sound.md`
+**Seeded from:** OLO eBook — `Crosspoint-Reader`'s `PageTurnFx.kt`
+(`turnSide`, `spatialTurnSound`, `turnSweep`, `sweepStereo`)
+
+Nothing is generated or copied here — this is a **rule**, not an asset. Any OLO
+sound effect places itself by `tokens/sound.md`:
+
+- the pan **starts on the side the motion began** (`+0.7`) and **sweeps just past
+  centre** (`−0.3`); a left-origin motion mirrors to `−0.7 → +0.3`;
+- per-channel loudness is the equal-power `cos`/`sin` law **× √2, clamped at
+  1.0** (centre stays unity, the loud side stops at 1.0 instead of clipping);
+- **spatialise only when left/right is real** — earphones, landscape, or width
+  **≥ 600dp**; otherwise play **centred** (an upright phone's speakers are top/
+  bottom);
+- **no in-app setting** (the OS "Mono audio" accessibility toggle handles mono);
+- ship **one mono clip** per effect and generate + **cache** the swept stereo on
+  first use, so the APK does not grow and there is one file to change.
+
+An app wires each effect (a page, a swipe, a panel) to that law; it may read the
+reference `PageTurnFx.kt` for the exact shape but does not fork a per-app rule.
+
 ## Re-syncing on a new version
 
-When OLO-Design advances, an app re-pulls and re-runs whichever of the four steps
+When OLO-Design advances, an app re-pulls and re-runs whichever of the five steps
 changed:
 
 | What moved here | App re-does |
@@ -188,6 +211,7 @@ changed:
 | an SVG source, the recolour table, an authored/static glyph, or a control glyph | step 2 |
 | the FileKind set, extension table, or a map | step 3 (and step 2 if a glyph was added) |
 | the launcher frame or a mark | step 4 |
+| the sound & motion rule (sweep, strength, when to spatialise) | step 5 (re-tune the app's FX to the new law) |
 
 Because the generated drawables carry a `Do not edit by hand` header, re-running
 a script overwrites cleanly; an app reviews the diff and commits it in its own

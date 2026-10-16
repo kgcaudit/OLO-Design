@@ -1,7 +1,7 @@
 # OLO Design — session charter
 
 This repo is owned by a dedicated **design session**. Its job is to define and
-advance one visual world for the four OLO apps, and to keep this repo as the
+advance one visual world for the OLO apps, and to keep this repo as the
 single source of truth the apps pull from. This file is that session's standing
 brief.
 
@@ -19,6 +19,7 @@ white mark apiece.
 | `tokens/color.md` | the canonical palette — brand, light/dark roles, status, tiles |
 | `tokens/type-shape.md` | the four shape radii and the type overrides |
 | `tokens/sound.md` | the sound & motion rule — a sound starts and sweeps from the side the movement started (sweep, strength, when to spatialise) |
+| `tokens/layout.md` | shared spacing and sizing + the `600.dp` wide breakpoint (seeded from OLO Calendar) |
 | `icons/` | the tile symbol set + the two-tone-white rule + the `FileKind` contract (`FILEKIND.md`); the SVG sources (`svg/`), the tile/flat build (`build_from_svg.py`), the authored glyphs (`authored_symbols.py`) and the static tiles (`static/`) |
 | `appicons/` | the shared launcher frame + the per-app marks, drawn from `launcher.py`; the adaptive-icon wrappers in `mipmap/` |
 | `docs/CONSUMING.md` | what each app copies or builds, and where it goes |
@@ -42,7 +43,8 @@ record to move them.
    symbols and icons from one place rather than from Explorer's tree.
 3. **Draw the family out.** Settle the per-app launcher marks (Explorer=folder+
    document, Player=play triangle in a ring, Cycle=ensō + water-drop for period
-   tracking, eBook=open book). The icons are white **ink-brush** marks (sumi:
+   tracking, eBook=open book, Calendar=sheet + binding pins + today dot). The
+   icons are white **ink-brush** marks (sumi:
    solid masses + variable-width brushed lines, each stroke a translucent layer
    so overlaps deepen on an object's structure) on a shared clay
    **value-gradation** ground — one hue graded by brightness, plus white (a

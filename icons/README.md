@@ -69,6 +69,13 @@ weight, so the two read as one hand.
   `merge`, `download`, `check` (bare ✓ — done/confirm; the circled `select` stays
   the *selection* glyph, so a confirm action and a selection state read apart),
   `save` (floppy — write to disk, distinct from `download`'s tray-and-arrow).
+- **Calendar views** (OLO Calendar): `view_year`, `view_month`, `view_week`,
+  `view_day`, `view_agenda`, and `calendars`. The four grid views share one
+  calendar sheet + binding pins (drawn after the pack's `003 일정,캘린더`) and
+  differ only inside — dots / grid / row-band / single-cell — while `agenda` is a
+  bulleted list and `calendars` is colour-chips + names. Drawn at a 1.7 stroke to
+  match that pack sheet; a calendar's own view switcher, so it never sits beside
+  the file-list `view_*` set.
 
 The toolbar / selection-bar actions carry the `ic_action_*` prefix (the in-app
 action layer), the menu/dropdown rows `ic_menu_*`; both are one hand. Because a

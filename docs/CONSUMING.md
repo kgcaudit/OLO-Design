@@ -41,6 +41,13 @@ Copy, as Compose values, keeping every name and hex/dp/sp exact:
 
 An app may *add* roles it needs; it may not change these baseline values locally.
 
+**Calendar colours & layout tokens.** An app that shows a calendar also takes the
+calendar colours from `../tokens/color.md` ("Calendar colours") — the Saturday
+blue, the Sunday/holiday reuse of `error`, and the calendar-colour → tile-hue
+mapping. Shared spacing and the `600.dp` wide breakpoint live in
+`../tokens/layout.md` (`OloLayout`). Both are seeded from OLO Calendar; an app
+copies only what it uses.
+
 **No-pill buttons.** `OloShapes` alone does not fix button corners: Material3's
 `Button`/`OutlinedButton`/`TextButton`/`FilledTonalButton`/`ElevatedButton`
 default to a fully-rounded pill, independent of the theme. Give every such button
@@ -163,7 +170,7 @@ not change the set or the maps locally.
 Each app builds **its own** mark and copies the shared wrappers:
 
 ```sh
-python3 appicons/launcher.py --app <explorer|player|cycle|ebook> \
+python3 appicons/launcher.py --app <explorer|player|cycle|ebook|calendar> \
     --out <app>/app/src/main/res/drawable
 cp appicons/mipmap/*.xml <app>/app/src/main/res/mipmap-anydpi-v26/
 ```

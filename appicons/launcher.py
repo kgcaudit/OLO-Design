@@ -326,11 +326,34 @@ def mark_player():
     return s
 
 
+def mark_calendar():
+    s = []
+    # the sheet: a filled mass, slightly bowed, like the Explorer document
+    sheet = [(162, 196), (350, 188), (356, 372), (168, 380)]
+    s.append((fillpoly(sheet, bow=3, jit=1.6), FILL))
+    for a, b in zip(sheet, sheet[1:] + sheet[:1]):
+        s += dbl(a, ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), b, 5.0, CT, j=2.4)
+    # header band: the defining edge, strongest ink
+    s.append((seg((164, 238), (258, 232), (352, 230), 6.0, 1.6), FOLD))
+    # binding rings: two short pressed strokes crossing the top edge
+    s.append((seg((214, 162), (215, 184), (216, 210), 9.0, 3.0), FOLD))
+    s.append((seg((298, 158), (297, 182), (296, 206), 9.0, 3.0), FOLD))
+    # faint week rules
+    for y in (282, 326):
+        s.append(wline((182, y), (338, y - 3), 2.4, FINE))
+    # today: one solid ink dot, like a seal pressed on the sheet
+    dot = [(292 + 17 * math.cos(math.radians(a)) * (1.0 + 0.06 * math.sin(math.radians(3 * a))),
+            304 + 16 * math.sin(math.radians(a))) for a in range(0, 360, 12)]
+    s.append((_polygon(dot), 0.96))
+    return s
+
+
 MARKS = {
     "explorer": mark_explorer,
     "cycle": mark_cycle,
     "ebook": mark_ebook,
     "player": mark_player,
+    "calendar": mark_calendar,
 }
 
 

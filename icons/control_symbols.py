@@ -131,6 +131,13 @@ def C(cx: float, cy: float, r: float) -> tuple:   # a hand solid dot / disc
              f"A{r},{r} 0 1 0 {cx - r},{cy} Z")
 
 
+def _rr(x: float, y: float, w: float, h: float, r: float) -> str:   # a rounded rect
+    return (f"M{x + r},{y} L{x + w - r},{y} Q{x + w},{y} {x + w},{y + r} "
+            f"L{x + w},{y + h - r} Q{x + w},{y + h} {x + w - r},{y + h} "
+            f"L{x + r},{y + h} Q{x},{y + h} {x},{y + h - r} "
+            f"L{x},{y + r} Q{x},{y} {x + r},{y} Z")
+
+
 # ---- hand-authored gaps (pack has no drawing), drawn to the pack weight -----
 GAPS = {
     "ic_menu_sort_name": [
@@ -278,10 +285,49 @@ def _composed() -> dict:
     }
 
 
+# ---- calendar view switcher (OLO Calendar) --------------------------------
+# A shared calendar sheet + two binding pins, after the pack's `003 일정,캘린더`,
+# carries a different interior per view so the five read as one family. Drawn at
+# a 1.7 stroke to match that pack sheet's fine line (finer than the file-list
+# view switcher, which the calendar views never sit beside). Seeded from OLO
+# Calendar; hand-authored here (the pack has the calendar drawing, not these
+# view variants).
+_CAL_SW = 1.7
+
+
+def _cal_base() -> list:
+    return [S(_rr(3.5, 5, 17, 15, 3), _CAL_SW),
+            S("M8,3 L8,7", _CAL_SW), S("M16,3 L16,7", _CAL_SW)]
+
+
+def _calendar() -> dict:
+    return {
+        # a year of months: a grid of dots
+        "ic_menu_view_year": _cal_base() + [C(x, y, 0.95) for y in (11, 15) for x in (8, 12, 16)],
+        # a month: the week grid
+        "ic_menu_view_month": _cal_base() + [
+            S("M3.5,10 L20.5,10", _CAL_SW), S("M9.2,10 L9.2,20", _CAL_SW),
+            S("M14.8,10 L14.8,20", _CAL_SW), S("M3.5,15 L20.5,15", _CAL_SW)],
+        # a week: one row band
+        "ic_menu_view_week": _cal_base() + [S(_rr(6, 11, 12, 4, 1.2), _CAL_SW)],
+        # a day: one cell
+        "ic_menu_view_day": _cal_base() + [S(_rr(6.5, 10.5, 5, 5, 1.2), _CAL_SW)],
+        # an agenda: a list with bullets (no sheet — it is a list, not a grid)
+        "ic_menu_view_agenda": [
+            S("M9,6 L20,6", _CAL_SW), S("M9,12 L20,12", _CAL_SW), S("M9,18 L20,18", _CAL_SW),
+            C(5, 6, 1.4), C(5, 12, 1.4), C(5, 18, 1.4)],
+        # the calendars list (which calendars are shown): colour chips + names
+        "ic_menu_calendars": [
+            F(_rr(4, 5, 4, 4, 1.2)), F(_rr(4, 10, 4, 4, 1.2)), F(_rr(4, 15, 4, 4, 1.2)),
+            S("M11,7 L20,7", _CAL_SW), S("M11,12 L20,12", _CAL_SW), S("M11,17 L20,17", _CAL_SW)],
+    }
+
+
 def all_glyphs() -> dict:
     out = {name: mono(stem, mode) for name, (stem, mode) in PACK.items()}
     out.update(_composed())
     out.update(GAPS)
+    out.update(_calendar())
     return out
 
 

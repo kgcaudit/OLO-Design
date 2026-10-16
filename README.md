@@ -1,8 +1,8 @@
 # OLO Design
 
 The shared design universe for the **OLO** family of Android apps. One palette,
-one symbol set, one type and shape language, one app-icon family — so the four
-apps read as parts of a whole rather than four separate things.
+one symbol set, one type and shape language, one app-icon family — so the apps
+read as parts of a whole rather than separate things.
 
 ## The family
 
@@ -12,6 +12,7 @@ apps read as parts of a whole rather than four separate things.
 | **OLO Player** | Media player (video/music) | `kgcaudit/OLO-Player` |
 | **OLO Cycle** | (cycling / activity) | `kgcaudit/OLO-Cycle` |
 | **OLO eBook** | e-book reader — "Crosspoint Reader" | `kgcaudit/Crosspoint-Reader` |
+| **OLO Calendar** | calendar (aggregates Google / Samsung / iPhone) | `kgcaudit/calender_link` |
 | **OLO Design** | **this repo** — the single source of truth | `kgcaudit/OLO-Design` |
 
 ## How it is shared
@@ -21,8 +22,8 @@ Sessions do not share live memory; **this repository is the shared point.**
 ```
             OLO-Design  (design session owns & evolves it)
                  |  tokens, symbols, app icons, rules
-     +-----------+-----------+-----------+
-  Explorer     Player      Cycle      Crosspoint-Reader
+     +---------+---------+---------+-----------------+
+  Explorer   Player    Cycle   Crosspoint-Reader  Calendar
    (each app session pulls the tokens & icons it needs into
     its own theme/ and res/drawable/, and re-syncs on a new version)
 ```
@@ -54,16 +55,20 @@ Seeded from OLO Explorer's shipping design, and now self-contained:
 - **Tokens** — colour, type and shape are captured in `tokens/`, verified
   against Explorer's shipping `Theme.kt`; `tokens/sound.md` adds the family's
   **sound-follows-motion** rule (a sound starts and sweeps from the side the
-  movement started), seeded from OLO eBook's page-turn effect.
+  movement started), seeded from OLO eBook's page-turn effect; `tokens/layout.md`
+  holds shared spacing and the `600.dp` wide breakpoint, and `tokens/color.md`
+  carries the calendar colours (Saturday blue, calendar-hue mapping), both
+  seeded from OLO Calendar.
 - **Symbols** — the SVG sources (`icons/svg/`), the tile/flat build
   (`icons/build_from_svg.py`), the authored glyphs (`icons/authored_symbols.py`)
   and the static tiles (`icons/static/`) all live here. The build
   reproduces Explorer's drawables exactly. `icons/FILEKIND.md` holds the shared
   kind set and maps.
 - **App icons** — `appicons/launcher.py` draws the shared clay ground and all
-  four per-app marks in white ink-brush on a value-graded clay ground (Explorer
+  the per-app marks in white ink-brush on a value-graded clay ground (Explorer
   folder + document, Cycle ensō + water-drop, eBook open book, Player play
-  triangle in a ring) from one place; wrappers in `appicons/mipmap/`.
+  triangle in a ring, Calendar sheet + binding pins + today dot) from one place;
+  wrappers in `appicons/mipmap/`.
 - **Consumption** — `docs/CONSUMING.md` says exactly what each app copies or
   builds and where it goes.
 

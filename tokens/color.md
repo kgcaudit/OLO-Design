@@ -88,3 +88,33 @@ Two kinds reuse a hue and are told apart by glyph rather than by a new colour:
 **COMIC** reuses the archive hue (open-book glyph with panel lines), and
 **EBOOK** (epub) reuses the `document` hue (plain open-book glyph). So the nine
 tile hues above still cover eleven `FileKind`s — see `../icons/FILEKIND.md`.
+
+## Calendar colours (OLO Calendar)
+
+Seeded from OLO Calendar. Two things the calendar needs that the rest of the
+family did not yet name.
+
+**Weekend days.** Korean calendars colour the weekend: **Saturday is blue,
+Sunday and holidays take the family's crimson `error`.** The blue sits on the
+cool side of the wheel, well away from the clay brand, and clears WCAG AA on
+every ground (≈5.4–5.7:1 on the ivory surfaces, ≥8.4:1 on the dark surface).
+
+| Token | Light | Dark |
+|-------|-------|------|
+| saturday | `0xFF1F63B8` | `0xFF8AB8F0` |
+
+Sunday / holiday reuse `error` (`0xFFA50E2E` light, `0xFFFFB0BE` dark) — no new
+token; the one warm red already means "stop / stands out."
+
+**A calendar's own colour → a family tile hue.** A calendar carries a colour the
+user picked in Google / Samsung / iPhone. OLO tells kinds apart by **hue, not
+lightness**, so that stored colour is shown as the **nearest `tiles` hue** (by
+hue angle); near-greys fall to `other`, and the blues Google/Samsung favour have
+no tile of their own so they map to the cool `document` (slate). The stored
+colour is never rewritten — the other calendar apps keep showing their own. An
+**all-day bar** is that hue laid softly over the surface
+(`lerp(surfaceContainerLowest, hue, 0.22)` in light, `0.42` in dark) with
+ordinary text on top, so a month of all-day events does not read as a wall of
+solid tiles. Reference implementation: OLO Calendar's `design/CalendarHue.kt`
+(`oloHueFor`, `saturdayColor`, `softFill`); the mapping is the rule, the file is
+where to read its exact shape.

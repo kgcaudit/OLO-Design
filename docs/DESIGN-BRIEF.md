@@ -43,7 +43,8 @@ record to move them.
    symbols and icons from one place rather than from Explorer's tree.
 3. **Draw the family out.** Settle the per-app launcher marks (Explorer=folder+
    document, Player=play triangle in a ring, Cycle=ensō + water-drop for period
-   tracking, eBook=open book, Calendar=sheet + binding pins + today dot). The
+   tracking, eBook=open hardcover + bookmark ribbon, Calendar=sheet + binding
+   pins + today dot). The
    icons are white **ink-brush** marks (sumi:
    solid masses + variable-width brushed lines, each stroke a translucent layer
    so overlaps deepen on an object's structure) on a shared clay

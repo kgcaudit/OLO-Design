@@ -41,7 +41,7 @@ carried by the stroke-width variation and the value gradation instead.
 |-----|------|
 | **OLO Explorer** | a filled folder with a small lined document sheet above it |
 | **OLO Cycle** | an **ensō** — a brushed open circle — with a free, asymmetric **water-drop** whose tail touches the ring: period tracking, told calmly and discreetly (no pink, no flower) |
-| **OLO eBook** | an open book — a filled cover, two brushed pages and a deep spine fold |
+| **OLO eBook** | an open **hardcover** — an angular cover board behind two brushed pages, a deep spine valley, the page-stack thickness, and a white **bookmark ribbon** hanging below with a swallowtail end |
 | **OLO Player** | a filled play triangle inside a brushed double ring (video + music) |
 
 **No sunburst.** The radial burst is Anthropic's / Claude's brand mark, not

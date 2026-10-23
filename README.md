@@ -66,8 +66,9 @@ Seeded from OLO Explorer's shipping design, and now self-contained:
   kind set and maps.
 - **App icons** — `appicons/launcher.py` draws the shared clay ground and all
   the per-app marks in white ink-brush on a value-graded clay ground (Explorer
-  folder + document, Cycle ensō + water-drop, eBook open book, Player play
-  triangle in a ring, Calendar sheet + binding pins + today dot) from one place;
+  folder + document, Cycle ensō + water-drop, eBook open hardcover + bookmark
+  ribbon, Player play triangle in a ring, Calendar sheet + binding pins + today
+  dot) from one place;
   wrappers in `appicons/mipmap/`.
 - **Consumption** — `docs/CONSUMING.md` says exactly what each app copies or
   builds and where it goes.

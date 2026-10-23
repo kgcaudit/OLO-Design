@@ -234,6 +234,41 @@ def _polygon(pts):
     return "M" + " L".join("%.1f,%.1f" % p for p in pts) + " Z"
 
 
+def _cubic(p0, p1, p2, p3, n=24):
+    """Sample a cubic Bezier into on-path points (marks carry no C commands)."""
+    o = []
+    for i in range(n):
+        t = i / (n - 1)
+        m = 1 - t
+        o.append((m**3 * p0[0] + 3 * m * m * t * p1[0] + 3 * m * t * t * p2[0] + t**3 * p3[0],
+                  m**3 * p0[1] + 3 * m * m * t * p1[1] + 3 * m * t * t * p2[1] + t**3 * p3[1]))
+    return o
+
+
+def _line(p0, p1, n=12):
+    return [(p0[0] + (p1[0] - p0[0]) * i / (n - 1),
+             p0[1] + (p1[1] - p0[1]) * i / (n - 1)) for i in range(n)]
+
+
+def _mir(pts, axis=CX):
+    """Mirror a point list about the vertical axis x = `axis` (default centre)."""
+    return [(2 * axis - x, y) for (x, y) in pts]
+
+
+def _brush(pts, peak, end, op, seed=0.0):
+    """One brush stroke down `pts`: half-width swells end -> peak -> end as
+    `end + (peak - end) * sin(pi t) ** 0.55`, with a +/-7% hand tremor; no round
+    cap, it dries off thin. Returns a translucent (pathData, alpha) stroke."""
+    n = len(pts)
+    hw = []
+    for i in range(n):
+        t = i / (n - 1)
+        w = end + (peak - end) * (math.sin(math.pi * t) ** 0.55)
+        w *= 1.0 + 0.07 * math.sin(i * 1.9 + seed)
+        hw.append(w)
+    return (strk(pts, hw), op)
+
+
 def scale_path(d, k, cx=CX, cy=CY):
     """Scale every coordinate pair in `d` by k about (cx, cy). Marks are M/L/Z
     only, so a coordinate-pair substitution is exact (no arc radii to mangle)."""
@@ -286,31 +321,52 @@ def mark_cycle():
 
 
 def mark_ebook():
+    """An open hardcover with a bookmark ribbon. The left half is drawn and
+    mirrored about x = 256 for the right; the spine and ribbon sit on the axis.
+    Coordinates are the confirmed spec (512 grid); the generator's fit_to_safe
+    brings the mark to family scale inside the safe circle. Marks read as white
+    ink on the clay ground: cover board is a faint fill, pages a soft fill, and
+    the edges / spine are strong brush strokes that swell and dry."""
     s = []
-    # cover block (filled, strong) -> anchors the book
-    s.append((fillpoly([(170, 322), (256, 336), (342, 322), (346, 348), (256, 360), (166, 348)], bow=3, jit=1.5), FILL))
-    # taller, slightly narrower pages
-    s += dbl((252, 186), (208, 174), (166, 188), 8, CT)   # L top
-    s += dbl((166, 188), (160, 258), (170, 324), 7, CT)   # L outer
-    s += dbl((170, 324), (214, 330), (252, 328), 6, CT)   # L bottom
-    s += dbl((260, 186), (304, 174), (346, 188), 8, CT)   # R top
-    s += dbl((346, 188), (352, 258), (342, 324), 7, CT)   # R outer
-    s += dbl((342, 324), (298, 330), (260, 328), 6, CT)   # R bottom
-    # spine valley (fold) strongest + hatch
-    s.append((seg((256, 330), (252, 260), (252, 186), 9, 2), FOLD))
-    s.append((seg((256, 330), (260, 260), (260, 186), 9, 2), FOLD))
-    for k in range(8):
-        t = k / 7
-        y = 198 + t * 120
-        s.append((strk([(252 - 7 - 5 * math.sin(t * 6), y), (253, y + 6)], wmod(6, 1.3, 3.4)), 0.55))
-        s.append((strk([(259, y + 6), (260 + 7 + 5 * math.sin(t * 6), y)], wmod(6, 1.3, 3.4)), 0.55))
-    # text rows
-    for y in (210, 232, 254, 276, 298):
-        s.append(wline((178, y), (240, y - 2), 3, FINE))
-        s.append(wline((272, y - 2), (334, y), 3, FINE))
-    # page corner curl
-    s.append((seg((346, 188), (330, 198), (340, 220), 4, 1.2), CT))
-    return [(scale_path(p, 1.1), op) for p, op in s]
+    # cover board (back): the angular hardcover, a little larger than the pages,
+    # a faint fill with no outline so the book reads light.
+    cover = (_cubic((256, 182), (220, 164), (170, 160), (118, 170))
+             + [(118, 342)]
+             + _cubic((118, 342), (170, 332), (220, 336), (256, 354)))
+    s.append((_polygon(cover), 0.22))
+    s.append((_polygon(_mir(cover)), 0.22))
+    # pages: outer edge straight, top/bottom bowing down toward the spine.
+    page = (_cubic((254, 194), (222, 176), (178, 170), (134, 176))
+            + [(134, 322)]
+            + _cubic((134, 322), (178, 314), (222, 318), (254, 336)))
+    s.append((_polygon(page), 0.40))
+    s.append((_polygon(_mir(page)), 0.40))
+    # text rows: three per page, the last one short.
+    for a, b in (((158, 220), (232, 220)), ((158, 250), (232, 250)), ((158, 280), (200, 280))):
+        row = _line(a, b)
+        s.append(_brush(row, 4.5, 1.2, 0.90))
+        s.append(_brush(_mir(row), 4.5, 1.2, 0.90))
+    # page-stack thickness: one stroke under the bottom edge.
+    thick = _cubic((140, 332), (180, 324), (222, 328), (252, 345))
+    s.append(_brush(thick, 3.6, 1.4, 0.85))
+    s.append(_brush(_mir(thick), 3.6, 1.4, 0.85))
+    # page outline: top / outer / bottom each its own brush, overlapping at the
+    # corners (peak 9, dries to 3).
+    top = _cubic((254, 194), (222, 176), (178, 170), (134, 176))
+    outer = _line((134, 176), (134, 322))
+    bottom = _cubic((134, 322), (178, 314), (222, 318), (254, 336))
+    for edge, seed in ((top, 0.3), (outer, 1.1), (bottom, 2.0)):
+        s.append(_brush(edge, 9.0, 3.0, 1.0, seed))
+        s.append(_brush(_mir(edge), 9.0, 3.0, 1.0, seed))
+    # spine valley (on the axis, not mirrored).
+    s.append(_brush(_cubic((256, 192), (255, 240), (255, 290), (256, 342)), 9.5, 3.0, 1.0))
+    # bookmark ribbon (front): a band hung from the top, a swallowtail V end,
+    # with a thin edge on its lower sides so the hanging tip reads.
+    ribbon = [(284, 196), (298, 196), (298, 382), (291, 372), (284, 382)]
+    s.append((_polygon(ribbon), 0.72))
+    s.append(_brush(_line((284, 330), (284, 383)), 5.0, 2.0, 0.90))
+    s.append(_brush(_line((298, 330), (298, 383)), 5.0, 2.0, 0.90))
+    return s
 
 
 def mark_player():

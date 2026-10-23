@@ -256,16 +256,19 @@ def _mir(pts, axis=CX):
 
 
 def _brush(pts, peak, end, op, seed=0.0):
-    """One brush stroke down `pts`: half-width swells end -> peak -> end as
-    `end + (peak - end) * sin(pi t) ** 0.55`, with a +/-7% hand tremor; no round
-    cap, it dries off thin. Returns a translucent (pathData, alpha) stroke."""
+    """One brush stroke down `pts`. `peak`/`end` are the FULL stroke width (both
+    sides) -- width swells end -> peak -> end as `end + (peak - end) * sin(pi t)
+    ** 0.55`, with a slow +/-7% tremor spread over the stroke length (t, not the
+    point index, so the edge waves ~3 times instead of jittering per vertex).
+    No round cap; it dries off thin. Returns a translucent (pathData, alpha)
+    stroke. strk offsets by a HALF-width, so pass width / 2."""
     n = len(pts)
     hw = []
     for i in range(n):
         t = i / (n - 1)
         w = end + (peak - end) * (math.sin(math.pi * t) ** 0.55)
-        w *= 1.0 + 0.07 * math.sin(i * 1.9 + seed)
-        hw.append(w)
+        w *= 1.0 + 0.07 * math.sin(19.0 * t + seed)
+        hw.append(w * 0.5)
     return (strk(pts, hw), op)
 
 
@@ -366,7 +369,10 @@ def mark_ebook():
     s.append((_polygon(ribbon), 0.72))
     s.append(_brush(_line((284, 330), (284, 383)), 5.0, 2.0, 0.90))
     s.append(_brush(_line((298, 330), (298, 383)), 5.0, 2.0, 0.90))
-    return s
+    # The confirmed mock is the spec coordinates scaled 0.86 about (256, 262);
+    # fit_to_safe then leaves it alone (it only ever shrinks), so the mark keeps
+    # that size instead of being grown to fill the safe circle.
+    return [(scale_path(p, 0.86, CX, 262), op) for p, op in s]
 
 
 def mark_player():
